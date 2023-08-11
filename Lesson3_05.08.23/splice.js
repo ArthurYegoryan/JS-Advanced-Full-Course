@@ -1,6 +1,8 @@
 const cars = ["Mercedes", "BMW", "Tesla", "Ferrari", "Opel", "Zap"];
 
 function splice(arr, startIndex = 0, deleteCount = 0, ...items) {
+    const deletedElements = [];
+
     if (startIndex < 0 && startIndex >= -arr.length) {
         startIndex += arr.length;
     } else if (startIndex < -arr.length) {
@@ -10,13 +12,17 @@ function splice(arr, startIndex = 0, deleteCount = 0, ...items) {
             arr.push(items[i]);
         }
 
-        return arr;
+        return deletedElements;
     }
 
     if (deleteCount > arr.length - startIndex) {
         deleteCount = arr.length - startIndex;
     } else if (deleteCount < 0) {
         deleteCount = 0;
+    }
+
+    for (let i = startIndex; i < startIndex + deleteCount; i++) {
+        deletedElements.push(arr[i]);
     }
 
     const lastRemeinedElements = [];
@@ -35,7 +41,7 @@ function splice(arr, startIndex = 0, deleteCount = 0, ...items) {
         arr.push(lastRemeinedElements[i]);
     }
 
-    return arr;
+    return deletedElements;
 }
 
 console.log(splice(cars, 3, 2, "06", "07", "Niva"));
