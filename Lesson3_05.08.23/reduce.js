@@ -6,11 +6,17 @@ function callback(total, element) {
 
 const initialValue = 0;
 
-function reduce(arr, fun, initialValue = arr[0]) {
+function reduce(arr, fun, initialValue) {
     let result = 0;
-    
-    for (let i = 0; i < arr.length; i++) {
-        result = fun(result, arr[i]);
+
+    let i = 0;
+    if (initialValue === undefined) {
+        i++;
+        initialValue = arr[0];
+    }
+
+    while (i < arr.length) {
+        result = fun(result, arr[i++]);
     }
 
     result += initialValue;
@@ -18,4 +24,4 @@ function reduce(arr, fun, initialValue = arr[0]) {
     return result;
 }
 
-console.log(reduce(arr, callback, initialValue));
+console.log(reduce(arr, callback));
