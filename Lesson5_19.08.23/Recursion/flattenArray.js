@@ -15,13 +15,13 @@ function flattenArray(array) {
 
     const currentArray = [];
 
-        for (let i = 0; i < array.length; i++) {
-            if (Array.isArray(array[i])) {
-                currentArray.push(...array[i]);
-            } else {
-                currentArray.push(array[i]);
-            }
+    for (let i = 0; i < array.length; i++) {
+        if (Array.isArray(array[i])) {
+            currentArray.push(...array[i]);
+        } else {
+            currentArray.push(array[i]);
         }
+    }
 
     return flattenArray(currentArray);
 }
