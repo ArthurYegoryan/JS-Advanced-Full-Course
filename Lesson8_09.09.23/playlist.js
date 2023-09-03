@@ -1,10 +1,18 @@
 function Playlist() {
     this.songsTitles = [];
     this.songIndex = 0;
+    this.isPlaying;
 }
 
 Playlist.prototype.add = function(song) { this.songsTitles.push(song.title); }
-Playlist.prototype.play = function() { return `${this.songsTitles[this.songIndex]} started to play.`; }
+Playlist.prototype.play = function() { 
+    if (this.isPlaying) {
+        this.isPlaying = true
+        return `${this.songsTitles[this.songIndex] } started`;
+    } 
+    this.isPlaying = true
+    return `${this.songsTitles[this.songIndex] } started to play`;
+}
 Playlist.prototype.stop = function() { return `${this.songsTitles[this.songIndex]} stopped.`; }
 Playlist.prototype.next = function() {
     if (this.songIndex === this.songsTitles.length - 1) {
