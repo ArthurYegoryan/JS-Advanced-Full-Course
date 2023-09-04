@@ -1,3 +1,5 @@
+// Not finished
+
 const inputArray = [1, 2, 3, 4];
 
 function generateCombinations(array, length) {
