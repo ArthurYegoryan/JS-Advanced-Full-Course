@@ -7,14 +7,16 @@ function getInfo(surname, age) {
 }
 
 function bind(func, context, ...args) {
-    if (context.hasOwnProperty(func)) {
-        return "Invalid binding!";
+    return function() {
+        if (context.hasOwnProperty(func)) {
+            return "Invalid binding!";
+        }
+    
+        context[func] = func;
+    
+        return context[func](...args);
     }
-
-    context[func] = func;
-
-    return context[func](...args);
 }
 
 getInfo("Yegoryan", 26);
-bind(getInfo, info, "Yegoryan", 26);
+bind(getInfo, info, "Yegoryan", 26)();
