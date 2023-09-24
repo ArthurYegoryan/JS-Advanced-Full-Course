@@ -40,75 +40,121 @@ const students = [
     },
 ];
 
-// TODO:
-// Make energy validation
 class University {
-    constructor (teachers = [], students = []) {
-        this.teachers = teachers;
-        this.students = students;
+    constructor(...datas) {
+        datas.reduce((acc, item) => {
+            acc[item[0].role] = [...item];
+        
+            return acc;
+        }, this);
+    }
+
+    getMembers(role) {
+        return this[role];
     }
 
     addMember(member) {
         try {
-            if (member.role === "teacher") this.teachers.push(member);
-            else if (member.role === "student") this.students.push(member);
-            else throw new Error("Unknown memeber role!");
-        } catch (err) { console.error(err.message); }
+            const datas = this[member.role];
+        
+            if (!datas) {
+                throw new Error("Unknown memeber role!");
+            }
+        
+            datas.push(member);
+        } catch ({message}) {
+            console.error(message);
+        }
     }
 
-    removeMember(member) {
+    removeMember({ role, name }) {
+        let datas = this[role];
+    
+        if (!datas) throw new Error("Unknown member role!");
+    
         try {
-            if (member.role === "teacher") {
-                try {
-                    const memberIndex = this.teachers.findIndex((person) => person.name === member.name);
-
-                    if (memberIndex === -1) throw new Error("Couldn't find teacher with that name!");
-                    else this.teachers = [...this.teachers.slice(0, memberIndex), ...this.teachers.slice(memberIndex + 1)];
-                } catch (err) {
-                    console.error(err.message);
-                }
+            const memberIndex = datas.findIndex(
+                ({ name: personName }) => personName === name
+            );
+        
+            if (memberIndex === -1) {
+                throw new Error(`Couldn't find ${role} with name ${name}!`);
             }
-            else if (member.role === "student") {
-                try {
-                    const memberIndex = this.students.findIndex((person) => person.name === member.name);
-
-                    if (memberIndex === -1) throw new Error("Couldn't find student with that name!");
-                    else this.students = [...this.students.slice(0, memberIndex), ...this.students.slice(memberIndex + 1)];
-                } catch (err) {
-                    console.error(err.message);
-                }
-            }
-            else throw new Error("Unknown memeber role!");
-        } catch (err) {
-            console.error(err.message);
+        
+            this[role] = [
+                ...datas.slice(0, memberIndex),
+                ...datas.slice(memberIndex + 1),
+            ];
+        } catch ({ message }) {
+            console.error(message);
         }
     }
 
     startLesson() {
-        teachers.map((teacher) => teacher.energy -= 5);
-        students.map((student) => student.energy -= 2);
+        try {
+            if (this["teacher"][0].energy - 5 < 0) {
+                throw new Error("Today is enough, teachers are tired!");
+            }
+
+            this["teacher"].map((teacher) => teacher.energy -= 5);
+            this["student"].map((teacher) => teacher.energy -= 2);
+        } catch ({message}) {
+            console.error(message);
+        }        
     }
 }
 
+class UniversityMember {
+    constructor(name = "", age = 18, role = "", energy = 24) {
+        this.name = name;
+        this.age = age;
+        this. role = role;
+        this.energy = energy;
+    }
 
+    info() {
+        return {
+            name: this.name,
+            age: this.age,
+            role: this.role,
+            energy: this.energy,
+        };
+    }
+}
+
+class Teacher extends UniversityMember {
+    constructor(name = "", age = 18, role = "", energy = 24) {
+        super(name, age, role, energy)
+    }
+}
+
+class Student extends UniversityMember {
+    constructor(name = "", age = 18, role = "", energy = 24) {
+        super(name, age, role, energy)
+    }
+}
 
 const university = new University(teachers, students);
+const teacher = new Teacher("Teacher Teacheryan", 30, "teacher", 24);
+const student = new Student("Student Studentyan", 18, "student", 24);
 
-university.addMember({
-    name: "Vardan Vardanyan",
-    age: 27,
-    role: "teacher",
-    energy: 24,
-});
-console.log(university.teachers);
+university.addMember(teacher.info());
+university.addMember(student.info());
+
+console.log(university.getMembers("teacher"));
+console.log(university.getMembers("student"));
+console.log("--------------------------------------------");
 
 university.removeMember({
     name: "Babken Babkenyan",
     role: "teacher",
 });
-console.log(university.teachers);
+console.log(university.getMembers("teacher"));
+console.log("--------------------------------------------");
 
-university.startLesson();
-
-console.log(university.teachers);
-console.log(university.students);
+for (let i = 0; i < 5; i++) {
+    university.startLesson();
+    console.log(university.getMembers("teacher"));
+    console.log(university.getMembers("student"));
+    console.log("--------------------------------------------");
+}
