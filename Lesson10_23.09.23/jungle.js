@@ -1,6 +1,3 @@
-// TODO
-// Add validations of energy and try catches
-
 const animals = [
     {
         name: "Tiger_1",
@@ -72,8 +69,8 @@ class Jungle {
     #foods = [];
 
     constructor(animals, foods) {
-        this.#animals = animals;
-        this.#foods = foods;
+        this.#animals = [...animals];
+        this.#foods = [...foods];
     }
 
     addJungleMember(member) {
@@ -97,7 +94,17 @@ class Jungle {
     }
 
     changeAnimalEnegy(animalName, energy) {
-        this.#animals.find(({name}) => name === animalName).energy += energy;
+        const currentAnimal = this.#animals.find(({name}) => name === animalName);
+        
+        try {
+            if (currentAnimal.energy + energy < 0) {
+                throw new Error("I can't do that, I'm too tired!");
+            }
+
+            currentAnimal.energy += energy;
+        } catch ({ message }) {
+            console.error(message);
+        }
     }
 
     getAllAnimals() {
@@ -125,7 +132,7 @@ class Jungle {
 
 class Animal extends Jungle {
     constructor(animals, foods, animalName, animalType, sound, food) {
-        super(animals, foods);
+        super([...animals], [...foods]);
         this.animalName = animalName;
         this.animalType = animalType;
         this.sound = sound;
@@ -247,16 +254,10 @@ class Meat extends Food {
 const jungle = new Jungle(animals, foods);
 
 const animal = new Animal(animals, foods, "Tiger_2", "tiger", "Vu vu", "meat");
-const tiger = new Tiger(animals, foods, "Tiger_3", "tiger", "Vu vu", "meat");
-const monkey = new Monkey(animals, foods, "Monkey_3", "monkey", "Ooo Ooo", "grain");
-const snake = new Snake(animals, foods, "Snake_3", "snake", "Tss Tss", "meat");
 
-const food = new Food(animals, foods);
-const fish = new Fish(animals, foods);
-const grain = new Grain(animals, foods);
-const meat = new Meat(animals, foods);
+console.log(jungle.getAllAnimals());
 
-animal.makeSound();
-jungle.soundOff();
+console.log(animal.makeSound());
+console.log(jungle.getAllAnimals());
 
 console.log(animals);
