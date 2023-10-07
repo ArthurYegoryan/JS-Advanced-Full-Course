@@ -129,18 +129,18 @@ class LinkedList {
             return;
         }
 
-        const datas = [];
+        let result = "";
 
         let counter = 1;
         let currentNode = this.head;
 
         while (counter <= this.size) {
-            datas.push(currentNode["data"]);
+            result += currentNode["data"] + " ";
             currentNode = currentNode.next;
             counter++;
         }
 
-        datas.map(item => console.log(item));
+        console.log(result);
     }
 }
 
