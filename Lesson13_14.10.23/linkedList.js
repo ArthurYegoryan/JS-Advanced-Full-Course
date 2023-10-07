@@ -140,7 +140,7 @@ class LinkedList {
             counter++;
         }
 
-        console.log(result);
+        console.log(result.trim());
     }
 }
 
