@@ -144,21 +144,19 @@ class LinkedList {
     }
 }
 
-const node1 = new Node(666);
-const node2 = new Node(777);
-const node3 = new Node(1);
-const node4 = new Node(7);
-const linkedList = new LinkedList()
+const node1 = new Node(1);
+const node2 = new Node(2);
+const node0 = new Node(0);
+const node3 = new Node(3);
 
-linkedList.append(node1);
-linkedList.append(node2);
-linkedList.prepend(node3);
-linkedList.insert(node4, 2);
-linkedList.removeAt(2);
-linkedList.insert(node4, 2);
-linkedList.remove(node4);
-console.log(linkedList.getSize());
-console.log(linkedList.isEmpty());
-linkedList.printList();
-
-console.log(JSON.stringify(linkedList, null, 2));
+const list = new LinkedList();
+list.append(node1);
+list.append(node2);
+list.prepend(node0);
+list.insert(node3, 3);
+list.printList();
+console.log("Size:", list.getSize());
+list.remove(2); 
+list.removeAt(2); 
+list.printList();
+console.log("Size:", list.getSize());
