@@ -113,6 +113,30 @@ class LinkedList {
         return this;
     }
 
+    reverse() {
+        const nodes = [];
+
+        let currentNode = this.head;
+
+        while (currentNode.next) {
+            nodes.unshift(currentNode);
+            currentNode = currentNode.next;
+        }
+        nodes.unshift(currentNode);
+
+        this.head = nodes[0];
+
+        let index = 0;
+
+        while (index !== this.size) {
+            nodes[index].next = nodes[index + 1];
+            index++;
+        }
+        nodes[index - 1].next = null;
+
+        return this;
+    }
+
     getSize() {
         return this.size;
     }
@@ -148,6 +172,7 @@ const node1 = new Node(1);
 const node2 = new Node(2);
 const node0 = new Node(0);
 const node3 = new Node(3);
+const node666 = new Node(666);
 
 const list = new LinkedList();
 list.append(node1);
@@ -157,6 +182,12 @@ list.insert(node3, 3);
 list.printList();
 console.log("Size:", list.getSize());
 list.remove(2); 
-list.removeAt(2); 
+list.removeAt(2);
+list.append(node666);
 list.printList();
 console.log("Size:", list.getSize());
+
+console.log(JSON.stringify(list, undefined, 2));
+list.reverse();
+// list.printList();
+console.log(JSON.stringify(list, undefined, 2));
