@@ -141,6 +141,14 @@ class LinkedList {
         return this.size;
     }
 
+    clear() {
+        this.head.next = null;
+        this.head = null;
+        this.size = 0;
+
+        return this;
+    }
+
     isEmpty() {
         if (!this.size) return false;
 
@@ -187,7 +195,9 @@ list.append(node666);
 list.printList();
 console.log("Size:", list.getSize());
 
-console.log(JSON.stringify(list, undefined, 2));
+list.printList();
 list.reverse();
-// list.printList();
-console.log(JSON.stringify(list, undefined, 2));
+list.printList();
+
+list.clear();
+list.printList();
