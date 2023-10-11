@@ -1,6 +1,3 @@
-// TODO
-// reverse, getSize, clear, isEmpty, printList methods
-
 class Node {
     constructor(data) {
         this.data = data;
@@ -125,6 +122,76 @@ class DoubleLinkedList {
 
         return this;
     }
+
+    reverse() {
+        const nodes = [];
+
+        let currentNode = this.head;
+
+        while (currentNode.next) {
+            nodes.unshift(currentNode);
+            currentNode = currentNode.next;
+        }
+        nodes.unshift(currentNode);
+        
+        let index = 0;
+
+        while (index !== this.size) {
+            nodes[index].next = nodes[index + 1];
+            index++;
+        }
+        nodes[index - 1].next = null;
+
+        while ((index - 1) !== 0) {
+            nodes[index - 1].prev = nodes[index - 2];
+            index--;
+        }
+        nodes[0].prev = null;
+
+        this.head = nodes[0];
+        this.tail = nodes[this.size - 1];
+
+        return this;
+    }
+
+    getSize() {
+        return this.size;
+    }
+
+    clear() {
+        this.head.next = null;
+        this.head = null;
+        this.tail = null;
+        this.size = 0;
+
+        return this;
+    }
+
+    isEmpty() {
+        if (!this.size) return false;
+
+        return true;
+    }
+
+    printList() {
+        if (!this.size) {
+            console.log("Your list is empty!");
+            return;
+        }
+
+        let result = "";
+
+        let counter = 1;
+        let currentNode = this.head;
+
+        while (counter <= this.size) {
+            result += currentNode["data"] + " ";
+            currentNode = currentNode.next;
+            counter++;
+        }
+
+        console.log(result.trim());
+    }
 }
 
 const node1 = new Node(1);
@@ -138,19 +205,19 @@ list.append(node1);
 list.append(node2);
 list.prepend(node0);
 list.insert(node3, 2);
-// list.printList();
-// console.log("Size:", list.getSize());
+list.printList();
+console.log("Size:", list.getSize());
 list.remove(node1);
 list.removeAt(2);
-// list.append(node666);
-// list.printList();
-// console.log("Size:", list.getSize());
+list.append(node666);
+list.printList();
+console.log("Size:", list.getSize());
 
-// list.printList();
-// list.reverse();
-// list.printList();
+list.printList();
+list.reverse();
+list.printList();
 
-// list.clear();
-// list.printList();
+list.clear();
+list.printList();
 
 console.log(list);
